@@ -6,6 +6,12 @@
   <title>Kreator Bransoletek</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #fff;
+    }
+
     .creator-container {
       display: flex;
       flex-wrap: wrap;
@@ -156,6 +162,23 @@
       document.getElementById('bracelet').style.borderWidth = px + 'px';
     }
 
+    function placeBead(span, index, total) {
+      const radius = 80;
+      const angle = (360 / total) * index;
+      const rad = (angle * Math.PI) / 180;
+      const x = radius * Math.cos(rad);
+      const y = radius * Math.sin(rad);
+      span.style.left = 100 + x + 'px';
+      span.style.top = 100 + y + 'px';
+      span.style.transform = 'translate(-50%, -50%)';
+    }
+
+    function refreshBeadPositions() {
+      const content = document.getElementById('bracelet-content');
+      const children = Array.from(content.children);
+      children.forEach((el, i) => placeBead(el, i, children.length));
+    }
+
     function addToBracelet(symbol) {
       const content = document.getElementById('bracelet-content');
       if (content.children.length >= maxBeads) {
@@ -179,13 +202,18 @@
       }
       const text = prompt("Wpisz tekst, który chcesz dodać:");
       if (text) {
-        const total = content.children.length;
-        const angle = (360 / maxBeads) * total;
-        const span = document.createElement('span');
-        span.textContent = text;
-        span.style.transform = `rotate(${angle}deg) translateY(-80px) rotate(-${angle}deg)`;
-        span.onclick = () => span.remove();
-        content.appendChild(span);
+        const emojiText = textToEmoji(text);
+        for (let emoji of emojiText) {
+          if (content.children.length >= maxBeads) break;
+          const span = document.createElement('span');
+          span.textContent = emoji;
+          span.onclick = () => {
+            span.remove();
+            refreshBeadPositions();
+          };
+          content.appendChild(span);
+        }
+        refreshBeadPositions();
       }
     }
 
