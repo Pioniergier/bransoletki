@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kreator Bransoletek</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Kreator Bransoletek</h1>
+    <p>Stwórz swoją wymarzoną bransoletkę!</p>
+  </header>
+
+  <section>
+    <form id="bracelet-form">
+      <label for="type">Wybierz typ:</label><br>
+      <select id="type" name="type">
+        <option value="sznurkowa">Sznurkowa</option>
+        <option value="koraliki">Z koralików</option>
+        <option value="personalizowana">Personalizowana</option>
+      </select><br><br>
+
+      <label for="color">Kolor bransoletki:</label><br>
+      <input type="color" id="color" name="color"><br><br>
+
+      <label for="text">Tekst na bransoletce (opcjonalnie):</label><br>
+      <input type="text" id="text" name="text" maxlength="20"><br><br>
+
+      <button type="submit">Zamów</button>
+    </form>
+  </section>
+
+  <footer>
+    <p><a href="index.html">← Powrót na stronę główną</a></p>
+  </footer>
+
+  <script>
+    document.getElementById('bracelet-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Dziękujemy za zamówienie! Skontaktujemy się z Tobą wkrótce.');
+    });
+  </script>
+</body>
+</html>
