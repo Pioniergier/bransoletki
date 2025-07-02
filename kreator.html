@@ -5,41 +5,141 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kreator Bransoletek</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fffdf6;
+      color: #333;
+    }
+
+    header {
+      background: #f4c2c2;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .creator-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .bracelet-preview {
+      text-align: center;
+    }
+
+    .bracelet-circle {
+      width: 200px;
+      height: 200px;
+      border: 5px solid #b76e79;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+    }
+
+    .thickness-buttons button {
+      margin: 0.3rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      background: #e78a8a;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .thickness-buttons button:hover {
+      background: #c86464;
+    }
+
+    .addon-panel {
+      min-width: 250px;
+      max-width: 300px;
+      background: #fff0f0;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .addon-panel h3 {
+      margin-top: 0;
+      text-align: center;
+      color: #aa3d3d;
+    }
+
+    .addon-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .addon {
+      width: 60px;
+      height: 60px;
+      background: #f8dede;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .addon:hover {
+      transform: scale(1.1);
+      background: #f2bcbc;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #f4c2c2;
+      margin-top: 2rem;
+    }
+  </style>
 </head>
 <body>
   <header>
     <h1>Kreator Bransoletek</h1>
-    <p>Stwórz swoją wymarzoną bransoletkę!</p>
+    <p>Wybierz sznurek i dodatki, aby stworzyć swoją bransoletkę</p>
   </header>
 
-  <section>
-    <form id="bracelet-form">
-      <label for="type">Wybierz typ:</label><br>
-      <select id="type" name="type">
-        <option value="sznurkowa">Sznurkowa</option>
-        <option value="koraliki">Z koralików</option>
-        <option value="personalizowana">Personalizowana</option>
-      </select><br><br>
+  <div class="creator-container">
+    <div class="bracelet-preview">
+      <div class="bracelet-circle" id="braceletCircle"></div>
+      <div class="thickness-buttons">
+        <button onclick="setThickness(2)">0.8 mm</button>
+        <button onclick="setThickness(4)">1 mm</button>
+        <button onclick="setThickness(6)">1.5 mm</button>
+      </div>
+    </div>
 
-      <label for="color">Kolor bransoletki:</label><br>
-      <input type="color" id="color" name="color"><br><br>
-
-      <label for="text">Tekst na bransoletce (opcjonalnie):</label><br>
-      <input type="text" id="text" name="text" maxlength="20"><br><br>
-
-      <button type="submit">Zamów</button>
-    </form>
-  </section>
+    <div class="addon-panel">
+      <h3>Dodatki</h3>
+      <div class="addon-list">
+        <div class="addon">❤️</div>
+        <div class="addon">🌟</div>
+        <div class="addon">💎</div>
+        <div class="addon">🔠</div>
+        <div class="addon">🔷</div>
+        <div class="addon">🧿</div>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <p><a href="index.html">← Powrót na stronę główną</a></p>
   </footer>
 
   <script>
-    document.getElementById('bracelet-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Dziękujemy za zamówienie! Skontaktujemy się z Tobą wkrótce.');
-    });
+    function setThickness(px) {
+      document.getElementById('braceletCircle').style.borderWidth = px + 'px';
+    }
   </script>
 </body>
 </html>
