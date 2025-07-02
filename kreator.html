@@ -6,46 +6,50 @@
   <title>Kreator Bransoletek</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #fffdf6;
-      color: #333;
-    }
-
-    header {
-      background: #f4c2c2;
-      padding: 2rem;
-      text-align: center;
-    }
-
     .creator-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 2rem;
       padding: 2rem;
+      gap: 2rem;
     }
 
     .bracelet-preview {
+      flex: 1;
+      min-width: 300px;
       text-align: center;
     }
 
-    .bracelet-circle {
+    .bracelet-ring {
       width: 200px;
       height: 200px;
-      border: 5px solid #b76e79;
+      margin: auto;
+      border: 10px solid #d17;
       border-radius: 50%;
-      margin: 0 auto 1rem;
+      transition: border-width 0.3s ease;
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .bracelet-content span {
+      margin: 0 4px;
+      font-size: 20px;
+    }
+
+    .thickness-buttons {
+      margin-top: 1rem;
     }
 
     .thickness-buttons button {
       margin: 0.3rem;
       padding: 0.5rem 1rem;
-      border: none;
       background: #e78a8a;
       color: white;
+      border: none;
       border-radius: 6px;
       cursor: pointer;
       transition: background 0.3s;
@@ -55,82 +59,75 @@
       background: #c86464;
     }
 
-    .addon-panel {
+    .beads-panel {
+      flex: 1;
       min-width: 250px;
-      max-width: 300px;
-      background: #fff0f0;
+      background: #fff2f2;
       padding: 1rem;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      max-height: 300px;
+      overflow-y: auto;
     }
 
-    .addon-panel h3 {
+    .beads-panel h3 {
       margin-top: 0;
-      text-align: center;
       color: #aa3d3d;
     }
 
-    .addon-list {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .addon {
-      width: 60px;
-      height: 60px;
-      background: #f8dede;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      text-align: center;
+    .bead-item {
+      padding: 0.5rem;
+      border-bottom: 1px solid #ddd;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: background 0.2s;
     }
 
-    .addon:hover {
-      transform: scale(1.1);
-      background: #f2bcbc;
+    .bead-item:hover {
+      background-color: #fcdede;
     }
 
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background: #f4c2c2;
-      margin-top: 2rem;
+    .text-button {
+      display: block;
+      margin: 1rem 0;
+      padding: 0.5rem 1rem;
+      background: #aaa;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Kreator Bransoletek</h1>
-    <p>Wybierz sznurek i dodatki, aby stworzyć swoją bransoletkę</p>
+    <p>Stwórz swoją wymarzoną bransoletkę!</p>
   </header>
 
-  <div class="creator-container">
+  <section class="creator-container">
     <div class="bracelet-preview">
-      <div class="bracelet-circle" id="braceletCircle"></div>
+      <div id="bracelet" class="bracelet-ring">
+        <div id="bracelet-content" class="bracelet-content"></div>
+      </div>
       <div class="thickness-buttons">
-        <button onclick="setThickness(2)">0.8 mm</button>
-        <button onclick="setThickness(4)">1 mm</button>
-        <button onclick="setThickness(6)">1.5 mm</button>
+        <button onclick="setThickness(5)">0.8mm</button>
+        <button onclick="setThickness(10)">1mm</button>
+        <button onclick="setThickness(15)">1.5mm</button>
       </div>
     </div>
 
-    <div class="addon-panel">
-      <h3>Dodatki</h3>
-      <div class="addon-list">
-        <div class="addon">❤️</div>
-        <div class="addon">🌟</div>
-        <div class="addon">💎</div>
-        <div class="addon">🔠</div>
-        <div class="addon">🔷</div>
-        <div class="addon">🧿</div>
-      </div>
+    <div class="beads-panel">
+      <h3>Dodatki (koraliki)</h3>
+      <div class="bead-item" onclick="addToBracelet('❤️')">❤️ Serduszko</div>
+      <div class="bead-item" onclick="addToBracelet('🌟')">🌟 Gwiazdka</div>
+      <div class="bead-item" onclick="addToBracelet('🔠')">🔠 Litera</div>
+      <div class="bead-item" onclick="addToBracelet('🔵')">🔵 Niebieski koralik</div>
+      <div class="bead-item" onclick="addToBracelet('🟣')">🟣 Fioletowy koralik</div>
+      <div class="bead-item" onclick="addToBracelet('⚫')">⚫ Czarny matowy</div>
+      <div class="bead-item" onclick="addToBracelet('🟡')">🟡 Żółty neonowy</div>
+
+      <button class="text-button" onclick="addCustomText()">Dodaj tekst</button>
     </div>
-  </div>
+  </section>
 
   <footer>
     <p><a href="index.html">← Powrót na stronę główną</a></p>
@@ -138,7 +135,22 @@
 
   <script>
     function setThickness(px) {
-      document.getElementById('braceletCircle').style.borderWidth = px + 'px';
+      document.getElementById('bracelet').style.borderWidth = px + 'px';
+    }
+
+    function addToBracelet(symbol) {
+      const span = document.createElement('span');
+      span.textContent = symbol;
+      document.getElementById('bracelet-content').appendChild(span);
+    }
+
+    function addCustomText() {
+      const text = prompt("Wpisz tekst, który chcesz dodać:");
+      if (text) {
+        const span = document.createElement('span');
+        span.textContent = text;
+        document.getElementById('bracelet-content').appendChild(span);
+      }
     }
   </script>
 </body>
