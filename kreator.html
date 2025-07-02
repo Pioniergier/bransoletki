@@ -6,6 +6,12 @@
   <title>Kreator Bransoletek</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #fff;
+    }
+
     .creator-container {
       display: flex;
       flex-wrap: wrap;
@@ -28,23 +34,33 @@
       border-radius: 50%;
       transition: border-width 0.3s ease;
       position: relative;
-      display: flex;
-      flex-wrap: wrap;
-      align-content: center;
-      justify-content: center;
       overflow: hidden;
     }
 
+    .bracelet-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
     .bracelet-content span {
-      margin: 0 4px;
-      font-size: 20px;
+      position: absolute;
+      transform-origin: center;
+      pointer-events: auto;
+      cursor: pointer;
+      font-size: 18px;
     }
 
     .thickness-buttons {
       margin-top: 1rem;
     }
 
-    .thickness-buttons button {
+    .thickness-buttons button,
+    .save-button {
       margin: 0.3rem;
       padding: 0.5rem 1rem;
       background: #e78a8a;
@@ -55,7 +71,8 @@
       transition: background 0.3s;
     }
 
-    .thickness-buttons button:hover {
+    .thickness-buttons button:hover,
+    .save-button:hover {
       background: #c86464;
     }
 
@@ -98,11 +115,6 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>Kreator Bransoletek</h1>
-    <p>Stwórz swoją wymarzoną bransoletkę!</p>
-  </header>
-
   <section class="creator-container">
     <div class="bracelet-preview">
       <div id="bracelet" class="bracelet-ring">
@@ -112,6 +124,7 @@
         <button onclick="setThickness(5)">0.8mm</button>
         <button onclick="setThickness(10)">1mm</button>
         <button onclick="setThickness(15)">1.5mm</button>
+        <button class="save-button" onclick="saveBracelet()">Zapisz projekt</button>
       </div>
     </div>
 
@@ -129,28 +142,75 @@
     </div>
   </section>
 
-  <footer>
-    <p><a href="index.html">← Powrót na stronę główną</a></p>
-  </footer>
-
   <script>
+    const maxBeads = 15;
+
     function setThickness(px) {
       document.getElementById('bracelet').style.borderWidth = px + 'px';
     }
 
+    function placeBead(span, index, total) {
+      const radius = 80;
+      const angle = (360 / total) * index;
+      const rad = (angle * Math.PI) / 180;
+      const x = radius * Math.cos(rad);
+      const y = radius * Math.sin(rad);
+      span.style.left = 100 + x + 'px';
+      span.style.top = 100 + y + 'px';
+      span.style.transform = 'translate(-50%, -50%)';
+    }
+
+    function refreshBeadPositions() {
+      const content = document.getElementById('bracelet-content');
+      const children = Array.from(content.children);
+      children.forEach((el, i) => placeBead(el, i, children.length));
+    }
+
     function addToBracelet(symbol) {
+      const content = document.getElementById('bracelet-content');
+      if (content.children.length >= maxBeads) {
+        alert("Można dodać maksymalnie " + maxBeads + " dodatków.");
+        return;
+      }
       const span = document.createElement('span');
       span.textContent = symbol;
-      document.getElementById('bracelet-content').appendChild(span);
+      span.onclick = () => {
+        span.remove();
+        refreshBeadPositions();
+      };
+      content.appendChild(span);
+      refreshBeadPositions();
     }
 
     function addCustomText() {
+      const content = document.getElementById('bracelet-content');
+      if (content.children.length >= maxBeads) {
+        alert("Można dodać maksymalnie " + maxBeads + " dodatków.");
+        return;
+      }
       const text = prompt("Wpisz tekst, który chcesz dodać:");
       if (text) {
         const span = document.createElement('span');
         span.textContent = text;
-        document.getElementById('bracelet-content').appendChild(span);
+        span.onclick = () => {
+          span.remove();
+          refreshBeadPositions();
+        };
+        content.appendChild(span);
+        refreshBeadPositions();
       }
+    }
+
+    function saveBracelet() {
+      const content = document.getElementById('bracelet-content');
+      const elements = Array.from(content.children).map(el => el.textContent);
+      const blob = new Blob([JSON.stringify(elements, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'bransoletka.json';
+      a.click();
+      URL.revokeObjectURL(url);
     }
   </script>
 </body>
